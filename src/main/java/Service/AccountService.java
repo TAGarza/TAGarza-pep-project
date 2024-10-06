@@ -32,7 +32,7 @@ public class AccountService {
         /*if(accDAO.retrieveAccount(account.getUsername(), account.getPassword()) == null){
             return null;
         }*/
-        System.out.println("account id: " + account.getAccount_id() + "\naccount user: " + account.getUsername() + "\naccount password: " + account.getPassword());
-        return accDAO.retrieveAccount(account.getUsername(), account.getPassword());
+        //System.out.println("account id: " + account.getAccount_id() + "\naccount user: " + account.getUsername() + "\naccount password: " + account.getPassword());
+        return accDAO.retrieveAccount(account);
     }
 }

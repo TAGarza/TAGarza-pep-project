@@ -5,7 +5,7 @@ import Model.Account;
 import Util.ConnectionUtil;
 public class AccountDAO {
 
-    // create account
+    // create account 
     public Account createAccount(Account account){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -29,21 +29,19 @@ public class AccountDAO {
     }
 
     // verify login 
-    public Account retrieveAccount(String user, String password){
+    public Account retrieveAccount(Account account){
         Connection connection = ConnectionUtil.getConnection();
         try {
             String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, user);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(1, account.getUsername());
+            preparedStatement.setString(2, account.getPassword());
 
             preparedStatement.executeQuery();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
+            ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                int generated_account_id = (int) rs.getLong(1);
-                Account acc = new Account(generated_account_id, rs.getString("username"), rs.getString("password"));
-                return acc;
+                return new Account(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"));
             } 
             
         } catch (SQLException e) {
