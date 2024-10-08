@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.List;
+
 import DAO.MessageDAO;
 import Model.Message;
 
@@ -28,7 +30,17 @@ public class MessageService {
     }
 
     // retrieve message by it's id
-    public Message messageById(Message message){
+    public Message messageById(int message){
         return messDAO.messageById(message);
     }
+
+    // retrieve all messages
+    public List<Message> getAllMessages(){
+        return messDAO.getAllMessages();
+    }
+
+    // delete message by it's id
+    /*public Message deleteByMessageId(int message){
+        return messDAO.deleteByMessageId(message);
+    }*/
 }

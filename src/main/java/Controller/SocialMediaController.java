@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +43,9 @@ public class SocialMediaController {
         // message
         app.post("/messages", this::createMessageHandler);// create message
         app.get("/messages/{message_id}", this::messageByIdHandler); // get message by ID
-        //app.get("/messages", this::getAllMessageHandler); // get all messages
+        app.get("/messages/", this::getAllMessagesHandler); // get all messages
+
+        //app.delete("/messages/{message_id}", this::deleteByMessageIdHandler); // delete message by id
         return app;
     }
 
@@ -96,17 +100,47 @@ public class SocialMediaController {
         }
 
     }
+
+    // for retrieving message by it's id
     private void messageByIdHandler(Context context) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(context.body(), Message.class);
-        Message retrievedMessage = messageService.messageById(message);
-
-        context.json(mapper.writeValueAsString(retrievedMessage));
-        context.status(200);
-
-        /*if(retrievedMessage!=null){
-            context.json(mapper.writeValueAsString(retrievedMessage));
+        //Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
+        List<Message> messages = messageService.getAllMessages();
+        if(messages!=null){
+            context.status(200).json(mapper.writeValueAsString(messages));
+        }
+        else{
             context.status(200);
-        }*/
+        }
     }
+
+    // for retrieving all messages
+    private void getAllMessagesHandler(Context context) throws JsonMappingException, JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        //Message message = mapper.readValue(context.body(), Message.class);
+        //Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
+        List<Message> messages = messageService.getAllMessages();
+        
+        if(messages!=null){
+            context.status(200).json(mapper.writeValueAsString(messages));
+            //context.json(messages);
+        }
+        else{
+            context.status(200);
+        }
+    }
+
+    // for deleting a message by it's id
+    /*private void deleteByMessageIdHandler(Context context) throws JsonMappingException, JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message deletedMessage = messageService.deleteByMessageId(Integer.parseInt(context.pathParam("message_id")));
+
+        if(deletedMessage!=null){
+            context.status(200).json(mapper.writeValueAsString(deletedMessage));
+        }
+        else{
+            context.status(200);
+        }
+    }*/
 }
