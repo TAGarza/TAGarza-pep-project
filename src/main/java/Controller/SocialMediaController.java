@@ -101,9 +101,12 @@ public class SocialMediaController {
         Message message = mapper.readValue(context.body(), Message.class);
         Message retrievedMessage = messageService.messageById(message);
 
-        if(retrievedMessage!=null){
+        context.json(mapper.writeValueAsString(retrievedMessage));
+        context.status(200);
+
+        /*if(retrievedMessage!=null){
             context.json(mapper.writeValueAsString(retrievedMessage));
             context.status(200);
-        }
+        }*/
     }
 }

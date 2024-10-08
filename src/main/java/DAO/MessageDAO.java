@@ -38,8 +38,9 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, message.getMessage_id());
+            System.out.println("message id: " + message.getMessage_id());
 
-            preparedStatement.executeQuery();
+            //preparedStatement.executeQuery();
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
                 return new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
