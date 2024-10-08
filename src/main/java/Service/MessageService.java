@@ -25,7 +25,10 @@ public class MessageService {
             return messDAO.createMessage(message);
         }
         return null;
-
     }
-    
+
+    // retrieve message by it's id
+    public Message messageById(Message message){
+        return messDAO.messageById(message);
+    }
 }
