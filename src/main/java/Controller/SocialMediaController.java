@@ -43,7 +43,7 @@ public class SocialMediaController {
         // message
         app.post("/messages", this::createMessageHandler);// create message
         app.get("/messages/{message_id}", this::messageByIdHandler); // get message by ID
-        //app.get("/messages/", this::getAllMessagesHandler); // get all messages
+        app.get("/messages/", this::getAllMessagesHandler); // get all messages
 
         //app.delete("/messages/{message_id}", this::deleteByMessageIdHandler); // delete message by id
         return app;
@@ -111,12 +111,15 @@ public class SocialMediaController {
             context.status(200).json(mapper.writeValueAsString(retrievedMessage));
         }
         else{
+            //context.status(200).json(mapper.writeValueAsString(retrievedMessage));
             context.status(200);
         }
+
+
     }
 
     // for retrieving all messages
-    /*private void getAllMessagesHandler(Context context) throws JsonMappingException, JsonProcessingException{
+    private void getAllMessagesHandler(Context context) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         //Message message = mapper.readValue(context.body(), Message.class);
         //Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
@@ -129,7 +132,7 @@ public class SocialMediaController {
         else{
             context.status(200);
         }
-    }*/
+    }
 
     // for deleting a message by it's id
     /*private void deleteByMessageIdHandler(Context context) throws JsonMappingException, JsonProcessingException{
