@@ -61,10 +61,11 @@ public class MessageDAO {
         List<Message> messages = new ArrayList<>();
         try {
             String sql = "SELECT * FROM message";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            //PreparedStatement preparedStatement = connection.prepareStatement(sql);
             //System.out.println(message.getMessage_text() + "\n" + message.getTime_posted_epoch());
 
-            ResultSet rs = preparedStatement.executeQuery();
+
+            ResultSet rs = connection.createStatement().executeQuery(sql);
             while(rs.next()){
                 Message message = new Message(rs.getInt("message_id"), 
                                             rs.getInt("posted_by"), 
@@ -72,7 +73,10 @@ public class MessageDAO {
                                             rs.getLong("time_posted_epoch"));
                 messages.add(message);
                 
+                
             } 
+            return messages;
+            
         } catch (SQLException e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
@@ -81,7 +85,7 @@ public class MessageDAO {
     }
 
     // delete message by it's id 
-    /*public Message deleteByMessageId(int message){
+    public Message deleteByMessageId(int message){
         Connection connection = ConnectionUtil.getConnection();
         try {
             String sql = "DELETE FROM message WHERE message_id = ? ";
@@ -94,7 +98,7 @@ public class MessageDAO {
             preparedStatement2.setInt(1, message);
 
             preparedStatement2.executeUpdate();
-            //ResultSet rs = preparedStatement1.executeQuery();
+            ResultSet rs = preparedStatement2.executeQuery();
             while(rs.next()){
                 //int generated_message_id = (int) pkeyRS.getLong(1);
                 return new Message(message, messageById(message).getPosted_by(),
@@ -107,6 +111,6 @@ public class MessageDAO {
             System.out.println(e.getMessage());
         }
         return null;
-    }*/
+    }
     
 }

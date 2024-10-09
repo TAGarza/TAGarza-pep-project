@@ -40,7 +40,7 @@ public class MessageService {
     }
 
     // delete message by it's id
-    /*public Message deleteByMessageId(int message){
-        return messDAO.deleteByMessageId(message);
-    }*/
+    public Message deleteByMessage(int message){
+        return messDAO.messageById(message);
+    }
 }
