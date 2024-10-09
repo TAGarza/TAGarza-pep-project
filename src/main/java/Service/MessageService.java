@@ -35,9 +35,9 @@ public class MessageService {
     }
 
     // retrieve all messages
-    public List<Message> getAllMessages(){
+    /*public List<Message> getAllMessages(){
         return messDAO.getAllMessages();
-    }
+    }*/
 
     // delete message by it's id
     /*public Message deleteByMessageId(int message){

@@ -45,7 +45,7 @@ public class MessageDAO {
             //preparedStatement.executeQuery();
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                return new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
+                return new Message(message, rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
             } 
             
         } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class MessageDAO {
     }
 
     // get all messages
-    public List<Message> getAllMessages(){
+    /*public List<Message> getAllMessages(){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
@@ -78,7 +78,7 @@ public class MessageDAO {
             System.out.println(e.getMessage());
         }
         return null;
-    }
+    }*/
 
     // delete message by it's id 
     /*public Message deleteByMessageId(int message){
