@@ -40,7 +40,22 @@ public class MessageService {
     }
 
     // delete message by it's id
-    public Message deleteByMessage(int message){
+    public Message deleteByMessageId(int message){
         return messDAO.messageById(message);
+    }
+
+     // update message by it's id
+     public Message updateByMessageId(Message message){
+        // update iff message id exists and
+        // new message != "" and  <= 255 char
+        if(message.getMessage_text() != "" && message.getMessage_text().length() <= 255){
+            return messDAO.messageById(message.getMessage_id());
+        }
+        return null;
+           
+    }
+    // retrieve all messages from an account
+    public List<Message> getAllMessagesFromAccount(int id){
+        return messDAO.getAllMessagesFromAccount(id);
     }
 }

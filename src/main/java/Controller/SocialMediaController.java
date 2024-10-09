@@ -39,13 +39,15 @@ public class SocialMediaController {
         // account
         app.post("/register", this::postAccountHandler); // create account
         app.post("/login", this::loginAccountHandler);   // verify login
+        app.get("/accounts/{account_id}", this::allMessagesByAccountHandler); // get all messages from a user
 
         // message
         app.post("/messages", this::createMessageHandler);// create message
         app.get("/messages/{message_id}", this::messageByIdHandler); // get message by ID
         app.get("/messages/", this::getAllMessagesHandler); // get all messages
-
         app.delete("/messages/{message_id}", this::deleteByMessageIdHandler); // delete message by id
+        //app.patch("/messages/{message_id}", this::updateByMessageIdHandler); // update message
+        
         return app;
     }
 
@@ -137,10 +139,41 @@ public class SocialMediaController {
     // for deleting a message by it's id
     private void deleteByMessageIdHandler(Context context) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
-        Message deletedMessage = messageService.deleteByMessage(Integer.parseInt(context.pathParam("message_id")));
+        Message deletedMessage = messageService.deleteByMessageId(Integer.parseInt(context.pathParam("message_id")));
 
         if(deletedMessage!=null){
             context.status(200).json(mapper.writeValueAsString(deletedMessage));
+        }
+        else{
+            context.status(200);
+        }
+    }
+    // for updating a message by it's id
+    private void updateByMessageIdHandler(Context context) throws JsonMappingException, JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(), Message.class);
+        //String text = context.pathParam("message_text");
+        //int id = Integer.parseInt(context.pathParam("message_id"));
+        Message updatedMessage = messageService.updateByMessageId(message); 
+        //Message updatedMessage = messageService.updateByMessageId(message);   
+                                                           
+        if(updatedMessage!=null){
+            context.status(200).json(mapper.writeValueAsString(updatedMessage));
+        }
+        else{
+            context.status(400);
+        }
+    }
+    // for retrieving all messages from an account
+    private void allMessagesByAccountHandler(Context context) throws JsonMappingException, JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        //Message message = mapper.readValue(context.body(), Message.class);
+        //Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
+        List<Message> messages = messageService.getAllMessagesFromAccount(Integer.parseInt(context.pathParam("posted_by")));
+        
+        if(messages!=null){
+            context.status(200).json(mapper.writeValueAsString(messages));
+            //context.json(messages);
         }
         else{
             context.status(200);
