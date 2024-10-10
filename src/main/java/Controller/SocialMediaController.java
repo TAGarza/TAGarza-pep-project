@@ -34,7 +34,6 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        //app.get("example-endpoint", this::exampleHandler);
 
         // account
         app.post("/register", this::postAccountHandler); // create account
@@ -106,14 +105,12 @@ public class SocialMediaController {
     // for retrieving message by it's id
     private void messageByIdHandler(Context context) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
-        //Message message = mapper.readValue(context.body(), Message.class);
         Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
         
         if(retrievedMessage!=null){
             context.status(200).json(mapper.writeValueAsString(retrievedMessage));
         }
         else{
-            //context.status(200).json(mapper.writeValueAsString(retrievedMessage));
             context.status(200);
         }
 
@@ -123,13 +120,10 @@ public class SocialMediaController {
     // for retrieving all messages
     private void getAllMessagesHandler(Context context) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
-        //Message message = mapper.readValue(context.body(), Message.class);
-        //Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
         List<Message> messages = messageService.getAllMessages();
         
         if(messages!=null){
             context.status(200).json(mapper.writeValueAsString(messages));
-            //context.json(messages);
         }
         else{
             context.status(200);
@@ -156,8 +150,6 @@ public class SocialMediaController {
         Message newText = mapper.readValue(context.body(), Message.class);;
         Message updatedMessage = messageService.updateByMessageId(id, newText);
         Message messageId = messageService.messageById(id);
-
-        //System.out.println("id: " + id + "\ntext: " + newText.getMessage_text());
         
         if(updatedMessage != null){
             context.status(200).json(mapper.writeValueAsString(updatedMessage));
@@ -165,18 +157,13 @@ public class SocialMediaController {
         else{
             context.status(400);
         }
-        //context.status(400);
     }
 
     // for retrieving all messages from an account
     private void allMessagesByAccountHandler(Context context) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
-        //Message message = mapper.readValue(context.body(), Message.class);
-        //Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
         List<Message> messages = messageService.getAllMessagesFromAccount(Integer.parseInt(context.pathParam("account_id")));
         int user = Integer.parseInt(context.pathParam("account_id"));
-
-        //System.out.println("user id: " + user);
 
         if(messages!=null){
             context.status(200).json(mapper.writeValueAsString(messages));

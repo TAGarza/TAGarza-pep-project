@@ -40,9 +40,7 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, message);
-            //System.out.println("message id: " + message.getMessage_id());
-
-            //preparedStatement.executeQuery();
+           
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
                 return new Message(message, rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
@@ -61,9 +59,6 @@ public class MessageDAO {
         List<Message> messages = new ArrayList<>();
         try {
             String sql = "SELECT * FROM message";
-            //PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            //System.out.println(message.getMessage_text() + "\n" + message.getTime_posted_epoch());
-
 
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while(rs.next()){
@@ -111,7 +106,7 @@ public class MessageDAO {
     // update message by it's id 
     public Message updateByMessageId(int id, Message message){
         Connection connection = ConnectionUtil.getConnection();
-        //System.out.println("id: " + id);
+        
         try {
             String sql = "UPDATE message SET message_text = ? WHERE message_id = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -120,14 +115,7 @@ public class MessageDAO {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
-            //ResultSet rs = preparedStatement.executeQuery();
-            /*while(rs.next()){
-                return new Message(message.getMessage_id(), message.getPosted_by(),
-                                    message.getMessage_text(), message.getTime_posted_epoch());
-            } 
-            preparedStatement.executeUpdate();*/
-
-            //return messageById(message.getMessage_id());
+            
             return new Message(id, messageById(id).getPosted_by(),
             message.getMessage_text(), messageById(id).getTime_posted_epoch() );
 
@@ -146,7 +134,6 @@ public class MessageDAO {
             String sql = "SELECT * FROM message WHERE posted_by = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //System.out.println(message.getMessage_text() + "\n" + message.getTime_posted_epoch());
             preparedStatement.setInt(1, id);
 
             ResultSet rs = preparedStatement.executeQuery();
