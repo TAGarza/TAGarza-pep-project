@@ -111,7 +111,7 @@ public class MessageDAO {
     // update message by it's id 
     public Message updateByMessageId(int id, Message message){
         Connection connection = ConnectionUtil.getConnection();
-        System.out.println("id: " + id);
+        //System.out.println("id: " + id);
         try {
             String sql = "UPDATE message SET message_text = ? WHERE message_id = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -145,10 +145,11 @@ public class MessageDAO {
         try {
             String sql = "SELECT * FROM message WHERE posted_by = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
             //System.out.println(message.getMessage_text() + "\n" + message.getTime_posted_epoch());
             preparedStatement.setInt(1, id);
 
-            ResultSet rs = connection.createStatement().executeQuery(sql);
+            ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
                 Message message = new Message(rs.getInt("message_id"), 
                                             rs.getInt("posted_by"), 

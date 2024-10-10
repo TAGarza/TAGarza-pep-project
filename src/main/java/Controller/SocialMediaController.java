@@ -47,7 +47,7 @@ public class SocialMediaController {
         app.get("/messages/", this::getAllMessagesHandler); // get all messages
         app.delete("/messages/{message_id}", this::deleteByMessageIdHandler); // delete message by id
         app.patch("/messages/{message_id}", this::updateByMessageIdHandler); // update message
-        
+        app.get("/accounts/{account_id}/messages", this::allMessagesByAccountHandler); // get all messages from a user
         return app;
     }
 
@@ -167,13 +167,17 @@ public class SocialMediaController {
         }
         //context.status(400);
     }
+
     // for retrieving all messages from an account
     private void allMessagesByAccountHandler(Context context) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         //Message message = mapper.readValue(context.body(), Message.class);
         //Message retrievedMessage = messageService.messageById(Integer.parseInt(context.pathParam("message_id")));
-        List<Message> messages = messageService.getAllMessagesFromAccount(Integer.parseInt(context.pathParam("posted_by")));
-        
+        List<Message> messages = messageService.getAllMessagesFromAccount(Integer.parseInt(context.pathParam("account_id")));
+        int user = Integer.parseInt(context.pathParam("account_id"));
+
+        //System.out.println("user id: " + user);
+
         if(messages!=null){
             context.status(200).json(mapper.writeValueAsString(messages));
             //context.json(messages);
