@@ -45,13 +45,14 @@ public class MessageService {
     }
 
      // update message by it's id
-     public Message updateByMessageId(Message message){
+     public Message updateByMessageId(int id, Message message){
         // update iff message id exists and
         // new message != "" and  <= 255 char
-        if(message.getMessage_text() != "" && message.getMessage_text().length() <= 255){
-            return messDAO.messageById(message.getMessage_id());
+        //System.out.println("id: " + id);
+        if(message.getMessage_text() == "" || message.getMessage_text().length() > 255 || messageById(id) == null){
+            return null;
         }
-        return null;
+        return messDAO.updateByMessageId(id, message);
            
     }
     // retrieve all messages from an account
